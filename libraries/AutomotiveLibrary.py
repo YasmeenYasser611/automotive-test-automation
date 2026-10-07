@@ -37,6 +37,15 @@ class AutomotiveLibrary:
             return "NORMAL"
         return "OVERVOLTAGE"
 
+    def get_frame_data(self, frame_id):
+        if int(str(frame_id), 0) != 0x123:
+            raise AssertionError(f"Frame {frame_id} is not available")
+        behaviour = self.ecu_model_reacts_to(self.voltage)
+        byte4 = {"UNDERVOLTAGE": 0x10, "OVERVOLTAGE": 0x02}.get(behaviour, 0x00)
+        data = [0x00, 0x00, 0x00, byte4]
+        self.validate_can_frame(0x123, len(data), *data)
+        return data
+
     def voltage_should_be_in_range(self, minimum, maximum):
         minimum = float(minimum)
         maximum = float(maximum)

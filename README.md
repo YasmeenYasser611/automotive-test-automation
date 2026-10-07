@@ -255,6 +255,18 @@ The Python library validates:
 
 ---
 
+## Voltage to CAN Flag Testing
+
+`tests/voltage_flags_tests.robot` follows the same flow as a bench test:
+
+```text
+Set Supply Voltage  ->  Get Frame Data (0x123)  ->  check the flags in Byte 4
+```
+
+The simulated bench returns frame `0x123` for the current supply voltage. The Robot test then checks the overvoltage and undervoltage flags with the bit masks below. It uses the same 13 voltage points as the voltage suite, so each voltage is checked both as an ECU behaviour and as a flag in the CAN frame.
+
+---
+
 ## CAN Bitmask Validation
 
 The project also demonstrates checking ECU status flags using bitwise operations.
@@ -271,6 +283,8 @@ The simulated status byte uses:
 Overvoltage flag  → 0x02
 Undervoltage flag → 0x10
 ```
+
+> **Note:** `0x02` for Bit 1 counts bits from 0, while `0x10` for Bit 5 counts from 1. In a real project, the bit numbering should be confirmed with the requirements engineer before relying on these masks.
 
 This represents a common embedded/automotive testing concept where multiple status signals are packed into a single byte.
 
@@ -476,18 +490,13 @@ This makes the automated test results available directly from the Jenkins build.
 
 ## Jenkins Build Result
 
-The current Jenkins pipeline successfully executes the project with:
+After every build, Jenkins shows the Robot Framework result on the build page (passed and failed tests per suite) and archives the reports:
 
 ```text
-25 tests
-25 passed
-0 failed
-```
-
-The Jenkins dashboard displays the Robot Framework result as:
-
-```text
-25 / 25 pass
+results/
+├── output.xml
+├── log.html
+└── report.html
 ```
 
 This demonstrates the complete CI/CD path:
@@ -501,14 +510,16 @@ Python Environment
    ↓
 Robot Framework
    ↓
-25 Automated Tests
+Automated Tests
    ↓
 Robot Report
    ↓
-25 / 25 PASS
+PASS / FAIL
 ```
 
-The Jenkins integration is intentionally kept close to the workflow used in the author's existing automotive test-automation work, where Robot Framework tests are executed through Jenkins and their results are published after the build.
+## GitHub Actions
+
+The repository also contains a GitHub Actions workflow (`.github/workflows/robot-tests.yml`). On every push and pull request it installs the dependencies, runs the same Robot Framework suite, and uploads the reports as a build artifact.
 
 ---
 
@@ -525,6 +536,7 @@ automotive-test-automation/
 |
 ├── tests/
 │   ├── voltage_tests.robot
+│   ├── voltage_flags_tests.robot
 │   ├── can_tests.robot
 │   └── exception_retry_tests.robot
 |
@@ -532,6 +544,7 @@ automotive-test-automation/
 │   └── workflows/
 │       └── robot-tests.yml
 |
+├── Jenkinsfile
 ├── requirements.txt
 ├── README.md
 └── .gitignore
@@ -555,25 +568,31 @@ Loads the Python automation library for Robot Framework suites.
 
 ### `tests/`
 
-Contains the automated Robot Framework test suites.
+Contains the automated Robot Framework test suites:
+
+- `voltage_tests.robot`: ECU behaviour at each voltage (EP + BVA)
+- `voltage_flags_tests.robot`: the same voltages checked as flags in CAN frame `0x123`
+- `can_tests.robot`: CAN frame and status-flag validation
+- `exception_retry_tests.robot`: communication failure and retry
 
 ---
 
 # 9. Test Coverage
 
-The project currently contains **25 automated test cases**.
+The project currently contains **38 automated test cases**.
 
 | Test Area | Test Cases | Purpose |
 |---|---:|---|
 | Voltage Behavior | 14 | EP + BVA + positive/negative behavior testing |
+| Voltage to CAN flags | 13 | Same voltages checked as flags in frame 0x123 |
 | CAN | 6 | CAN frame and status-flag validation |
 | Exception & Retry | 5 | Communication failure and recovery |
-| **Total** | **25** | **25/25 PASS** |
+| **Total** | **38** | **38/38 PASS** |
 
 Latest local execution:
 
 ```text
-25 tests, 25 passed, 0 failed
+38 tests, 38 passed, 0 failed
 ```
 
 ---
@@ -587,8 +606,8 @@ Latest local execution:
 **Status: Functional**
 
 ```text
-25 automated tests
-25 passed
+38 automated tests
+38 passed
 0 failed
 ```
 
