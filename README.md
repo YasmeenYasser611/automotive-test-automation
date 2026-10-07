@@ -398,7 +398,121 @@ This approach is useful for shared automation libraries because common functiona
 
 ---
 
-# 7. Project Structure
+# 7. Jenkins CI/CD
+
+The project is integrated with **Jenkins** to execute the Robot Framework test suite as part of a CI/CD workflow.
+
+The Jenkins pipeline is defined in the root-level `Jenkinsfile`.
+
+The pipeline follows this flow:
+
+```text
+GitHub Repository
+       |
+       v
+Jenkins Pipeline
+       |
+       v
+Checkout source code
+       |
+       v
+Setup Python virtual environment
+       |
+       v
+Install project dependencies
+       |
+       v
+Run Robot Framework
+       |
+       v
+Publish Robot Framework results
+       |
+       v
+Archive test artifacts
+```
+
+## Jenkins Pipeline
+
+The pipeline performs three main stages:
+
+### Setup
+
+Jenkins creates a Python virtual environment and installs the dependencies defined by the project.
+
+```groovy
+stage('Setup') {
+    steps {
+        sh '''
+            python3 -m venv venv
+            venv/bin/python -m pip install --upgrade pip
+            venv/bin/python -m pip install -r requirements.txt
+        '''
+    }
+}
+```
+
+### Test
+
+Jenkins executes the complete Robot Framework test suite:
+
+```bash
+venv/bin/python -m robot --outputdir tests/results tests/
+```
+
+This runs all voltage, CAN, and exception/retry test suites.
+
+### Post
+
+After the test execution, Jenkins publishes the Robot Framework results and archives the generated reports:
+
+```text
+results/
+├── output.xml
+├── log.html
+└── report.html
+```
+
+This makes the automated test results available directly from the Jenkins build.
+
+## Jenkins Build Result
+
+The current Jenkins pipeline successfully executes the project with:
+
+```text
+25 tests
+25 passed
+0 failed
+```
+
+The Jenkins dashboard displays the Robot Framework result as:
+
+```text
+25 / 25 pass
+```
+
+This demonstrates the complete CI/CD path:
+
+```text
+GitHub
+   ↓
+Jenkins
+   ↓
+Python Environment
+   ↓
+Robot Framework
+   ↓
+25 Automated Tests
+   ↓
+Robot Report
+   ↓
+25 / 25 PASS
+```
+
+The Jenkins integration is intentionally kept close to the workflow used in the author's existing automotive test-automation work, where Robot Framework tests are executed through Jenkins and their results are published after the build.
+
+---
+
+# 8. Project Structure
 
 ```text
 automotive-test-automation/
@@ -445,7 +559,7 @@ Contains the automated Robot Framework test suites.
 
 ---
 
-# 8. Test Coverage
+# 9. Test Coverage
 
 The project currently contains **25 automated test cases**.
 
@@ -478,7 +592,7 @@ Latest local execution:
 0 failed
 ```
 
-The current version is a **simulation-based portfolio project** focused on black-box test design and Robot Framework/Python automation.
+The current version is a **simulation-based portfolio project** focused on black-box test design, Robot Framework/Python automation, and Jenkins CI/CD.
 
 ---
 
