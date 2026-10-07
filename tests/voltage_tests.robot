@@ -1,0 +1,45 @@
+*** Settings ***
+Documentation    ECU voltage behaviour, BVA test cases TC01-TC14.
+...              Assumptions: resolution 0.1 V; 5.0 V = undervoltage; 9.0 V and 14.0 V = normal;
+...              18.0 V = overvoltage. Below 5 V and above 18 V are never applied.
+Resource    ../resources/common.resource
+Test Template    Check ECU Behaviour
+
+*** Test Cases ***
+TC01 Lower valid limit
+    5.0    UNDERVOLTAGE
+TC02 Just inside
+    5.1    UNDERVOLTAGE
+TC03 Mid undervoltage
+    7.0    UNDERVOLTAGE
+TC04 Just below 9 V
+    8.9    UNDERVOLTAGE
+TC05 Boundary 9 V (assumed normal)
+    9.0    NORMAL
+TC06 Just above 9 V
+    9.1    NORMAL
+TC07 Mid normal
+    11.5    NORMAL
+TC08 Just below 14 V
+    13.9    NORMAL
+TC09 Boundary 14 V (assumed normal)
+    14.0    NORMAL
+TC10 Just above 14 V
+    14.1    OVERVOLTAGE
+TC11 Mid overvoltage
+    16.0    OVERVOLTAGE
+TC12 Just below 18 V
+    17.9    OVERVOLTAGE
+TC13 Upper valid limit
+    18.0    OVERVOLTAGE
+
+TC14 Bench refuses unsafe voltages
+    [Template]    NONE
+    Run Keyword And Expect Error    *UNSAFE*    ECU Model Reacts To    4.9
+    Run Keyword And Expect Error    *UNSAFE*    ECU Model Reacts To    18.1
+
+*** Keywords ***
+Check ECU Behaviour
+    [Arguments]    ${volts}    ${expected}
+    ${actual}=    ECU Model Reacts To    ${volts}
+    Should Be Equal    ${actual}    ${expected}    Wrong behaviour at ${volts} V

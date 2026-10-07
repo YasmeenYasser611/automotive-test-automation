@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.5 (Python 3.10.12 on linux)" generated="2026-10-07T16:59:41.007745" rpa="false" schemaversion="5">
+<suite id="s1" name="Tests" source="/home/yasmeen/Desktop/test-py/automotive-test-automation/tests">
+<suite id="s1-s1" name="Can Tests" source="/home/yasmeen/Desktop/test-py/automotive-test-automation/tests/can_tests.robot">
+<test id="s1-s1-t1" name="Valid CAN Frame Passes" line="5">
+<kw name="Validate Can Frame" owner="AutomotiveLibrary">
+<arg>0x123</arg>
+<arg>4</arg>
+<arg>0x11</arg>
+<arg>0x22</arg>
+<arg>0x33</arg>
+<arg>0x00</arg>
+<status status="PASS" start="2026-10-07T16:59:41.033677" elapsed="0.000148"/>
+</kw>
+<tag>smoke</tag>
+<status status="PASS" start="2026-10-07T16:59:41.033039" elapsed="0.000946"/>
+</test>
+<test id="s1-s1-t2" name="CAN ID Too Large Is Rejected" line="9">
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<kw name="Validate Can Frame" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.034882" level="FAIL">Invalid CAN ID: 0x800</msg>
+<arg>0x800</arg>
+<arg>0</arg>
+<status status="FAIL" start="2026-10-07T16:59:41.034762" elapsed="0.000290">Invalid CAN ID: 0x800</status>
+</kw>
+<arg>*Invalid CAN ID*</arg>
+<arg>Validate CAN Frame</arg>
+<arg>0x800</arg>
+<arg>0</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.034442" elapsed="0.000868"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2026-10-07T16:59:41.034140" elapsed="0.001285"/>
+</test>
+<test id="s1-s1-t3" name="DLC Mismatch Is Rejected" line="15">
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<kw name="Validate Can Frame" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.036297" level="FAIL">DLC is 2 but got 1 data bytes</msg>
+<arg>0x100</arg>
+<arg>2</arg>
+<arg>0x11</arg>
+<status status="FAIL" start="2026-10-07T16:59:41.036102" elapsed="0.000266">DLC is 2 but got 1 data bytes</status>
+</kw>
+<arg>*DLC is 2 but got 1 data bytes*</arg>
+<arg>Validate CAN Frame</arg>
+<arg>0x100</arg>
+<arg>2</arg>
+<arg>0x11</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.035858" elapsed="0.000715"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2026-10-07T16:59:41.035586" elapsed="0.001109"/>
+</test>
+<test id="s1-s1-t4" name="Overvoltage Flag Is Detected" line="21">
+<kw name="Validate Can Frame" owner="AutomotiveLibrary">
+<arg>0x200</arg>
+<arg>4</arg>
+<arg>0x00</arg>
+<arg>0x00</arg>
+<arg>0x00</arg>
+<arg>0x02</arg>
+<status status="PASS" start="2026-10-07T16:59:41.037050" elapsed="0.000088"/>
+</kw>
+<kw name="Can Overvoltage Flag Should Be" owner="AutomotiveLibrary">
+<arg>True</arg>
+<status status="PASS" start="2026-10-07T16:59:41.037230" elapsed="0.000075"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.036837" elapsed="0.000560"/>
+</test>
+<test id="s1-s1-t5" name="Undervoltage Flag Is Detected" line="25">
+<kw name="Validate Can Frame" owner="AutomotiveLibrary">
+<arg>0x200</arg>
+<arg>4</arg>
+<arg>0x00</arg>
+<arg>0x00</arg>
+<arg>0x00</arg>
+<arg>0x10</arg>
+<status status="PASS" start="2026-10-07T16:59:41.037715" elapsed="0.000090"/>
+</kw>
+<kw name="Can Undervoltage Flag Should Be" owner="AutomotiveLibrary">
+<arg>True</arg>
+<status status="PASS" start="2026-10-07T16:59:41.037891" elapsed="0.000066"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.037521" elapsed="0.000514"/>
+</test>
+<test id="s1-s1-t6" name="Flags Are Clear" line="29">
+<kw name="Validate Can Frame" owner="AutomotiveLibrary">
+<arg>0x200</arg>
+<arg>4</arg>
+<arg>0x00</arg>
+<arg>0x00</arg>
+<arg>0x00</arg>
+<arg>0x00</arg>
+<status status="PASS" start="2026-10-07T16:59:41.038340" elapsed="0.000080"/>
+</kw>
+<kw name="Can Overvoltage Flag Should Be" owner="AutomotiveLibrary">
+<arg>False</arg>
+<status status="PASS" start="2026-10-07T16:59:41.038500" elapsed="0.000062"/>
+</kw>
+<kw name="Can Undervoltage Flag Should Be" owner="AutomotiveLibrary">
+<arg>False</arg>
+<status status="PASS" start="2026-10-07T16:59:41.038630" elapsed="0.000058"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.038150" elapsed="0.000619"/>
+</test>
+<status status="PASS" start="2026-10-07T16:59:41.030360" elapsed="0.008722"/>
+</suite>
+<suite id="s1-s2" name="Exception Retry Tests" source="/home/yasmeen/Desktop/test-py/automotive-test-automation/tests/exception_retry_tests.robot">
+<test id="s1-s2-t1" name="ECU Communication Works" line="5">
+<kw name="Configure Ecu Failures" owner="AutomotiveLibrary">
+<arg>0</arg>
+<status status="PASS" start="2026-10-07T16:59:41.040787" elapsed="0.000193"/>
+</kw>
+<kw name="Get Device Status" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.041174" level="INFO">${status} = OK</msg>
+<var>${status}</var>
+<status status="PASS" start="2026-10-07T16:59:41.041074" elapsed="0.000132"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${status}</arg>
+<arg>OK</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.041352" elapsed="0.000272"/>
+</kw>
+<tag>smoke</tag>
+<status status="PASS" start="2026-10-07T16:59:41.040545" elapsed="0.001176"/>
+</test>
+<test id="s1-s2-t2" name="ECU Communication Error Is Meaningful" line="11">
+<kw name="Configure Ecu Failures" owner="AutomotiveLibrary">
+<arg>1</arg>
+<status status="PASS" start="2026-10-07T16:59:41.042063" elapsed="0.000071"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<kw name="Get Device Status" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.042566" level="FAIL">ECUCommunicationError: Failed to communicate with ECU: ECU communication failed</msg>
+<status status="FAIL" start="2026-10-07T16:59:41.042476" elapsed="0.000186">ECUCommunicationError: Failed to communicate with ECU: ECU communication failed</status>
+</kw>
+<arg>*Failed to communicate with ECU*</arg>
+<arg>Get Device Status</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.042255" elapsed="0.000609"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2026-10-07T16:59:41.041852" elapsed="0.001110"/>
+</test>
+<test id="s1-s2-t3" name="ECU Communication Is Retried" line="18">
+<kw name="Configure Ecu Failures" owner="AutomotiveLibrary">
+<arg>2</arg>
+<status status="PASS" start="2026-10-07T16:59:41.043393" elapsed="0.000071"/>
+</kw>
+<kw name="Get Device Status With Retry" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.243931" level="INFO">Retrying in 0.1s...
+Retrying in 0.1s...</msg>
+<msg time="2026-10-07T16:59:41.244156" level="INFO">${status} = OK</msg>
+<var>${status}</var>
+<arg>3</arg>
+<arg>0.1</arg>
+<status status="PASS" start="2026-10-07T16:59:41.043543" elapsed="0.200658"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${status}</arg>
+<arg>OK</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.244643" elapsed="0.000588"/>
+</kw>
+<tag>smoke</tag>
+<status status="PASS" start="2026-10-07T16:59:41.043178" elapsed="0.202255"/>
+</test>
+<test id="s1-s2-t4" name="All Retries Fail" line="24">
+<kw name="Configure Ecu Failures" owner="AutomotiveLibrary">
+<arg>3</arg>
+<status status="PASS" start="2026-10-07T16:59:41.245856" elapsed="0.000081"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<kw name="Get Device Status With Retry" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.446698" level="INFO">Retrying in 0.1s...
+Retrying in 0.1s...</msg>
+<msg time="2026-10-07T16:59:41.446887" level="FAIL">ECUCommunicationError: Failed to communicate with ECU: ECU communication failed</msg>
+<arg>3</arg>
+<arg>0.1</arg>
+<status status="FAIL" start="2026-10-07T16:59:41.246308" elapsed="0.200783">ECUCommunicationError: Failed to communicate with ECU: ECU communication failed</status>
+</kw>
+<arg>*Failed to communicate with ECU*</arg>
+<arg>Get Device Status With Retry</arg>
+<arg>3</arg>
+<arg>0.1</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.246057" elapsed="0.201607"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2026-10-07T16:59:41.245593" elapsed="0.202331"/>
+</test>
+<test id="s1-s2-t5" name="Invalid Retry Count Is Rejected" line="31">
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<kw name="Get Device Status With Retry" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.449065" level="FAIL">ValueError: attempts must be greater than zero</msg>
+<arg>0</arg>
+<arg>0.1</arg>
+<status status="FAIL" start="2026-10-07T16:59:41.448950" elapsed="0.000188">ValueError: attempts must be greater than zero</status>
+</kw>
+<arg>*attempts must be greater than zero*</arg>
+<arg>Get Device Status With Retry</arg>
+<arg>0</arg>
+<arg>0.1</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.448612" elapsed="0.000724"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2026-10-07T16:59:41.448265" elapsed="0.001182"/>
+</test>
+<status status="PASS" start="2026-10-07T16:59:41.039379" elapsed="0.410260"/>
+</suite>
+<suite id="s1-s3" name="Voltage Tests" source="/home/yasmeen/Desktop/test-py/automotive-test-automation/tests/voltage_tests.robot">
+<test id="s1-s3-t1" name="TC01 Lower valid limit" line="9">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.452011" level="INFO">${actual} = UNDERVOLTAGE</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.451885" elapsed="0.000149"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.452149" elapsed="0.000291"/>
+</kw>
+<arg>5.0</arg>
+<arg>UNDERVOLTAGE</arg>
+<status status="PASS" start="2026-10-07T16:59:41.451640" elapsed="0.000852"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.451299" elapsed="0.001297"/>
+</test>
+<test id="s1-s3-t2" name="TC02 Just inside" line="11">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.453406" level="INFO">${actual} = UNDERVOLTAGE</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.453289" elapsed="0.000139"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.453527" elapsed="0.000285"/>
+</kw>
+<arg>5.1</arg>
+<arg>UNDERVOLTAGE</arg>
+<status status="PASS" start="2026-10-07T16:59:41.453072" elapsed="0.000789"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.452730" elapsed="0.001229"/>
+</test>
+<test id="s1-s3-t3" name="TC03 Mid undervoltage" line="13">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.454688" level="INFO">${actual} = UNDERVOLTAGE</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.454571" elapsed="0.000147"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.454819" elapsed="0.000288"/>
+</kw>
+<arg>7.0</arg>
+<arg>UNDERVOLTAGE</arg>
+<status status="PASS" start="2026-10-07T16:59:41.454364" elapsed="0.000797"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.454096" elapsed="0.001173"/>
+</test>
+<test id="s1-s3-t4" name="TC04 Just below 9 V" line="15">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.456053" level="INFO">${actual} = UNDERVOLTAGE</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.455934" elapsed="0.000142"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.456176" elapsed="0.000298"/>
+</kw>
+<arg>8.9</arg>
+<arg>UNDERVOLTAGE</arg>
+<status status="PASS" start="2026-10-07T16:59:41.455660" elapsed="0.000866"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.455404" elapsed="0.001222"/>
+</test>
+<test id="s1-s3-t5" name="TC05 Boundary 9 V (assumed normal)" line="17">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.457445" level="INFO">${actual} = NORMAL</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.457332" elapsed="0.000134"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.457561" elapsed="0.000253"/>
+</kw>
+<arg>9.0</arg>
+<arg>NORMAL</arg>
+<status status="PASS" start="2026-10-07T16:59:41.457008" elapsed="0.000851"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.456756" elapsed="0.001190"/>
+</test>
+<test id="s1-s3-t6" name="TC06 Just above 9 V" line="19">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.458589" level="INFO">${actual} = NORMAL</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.458489" elapsed="0.000119"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.458701" elapsed="0.000238"/>
+</kw>
+<arg>9.1</arg>
+<arg>NORMAL</arg>
+<status status="PASS" start="2026-10-07T16:59:41.458302" elapsed="0.000681"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.458070" elapsed="0.000997"/>
+</test>
+<test id="s1-s3-t7" name="TC07 Mid normal" line="21">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.459676" level="INFO">${actual} = NORMAL</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.459580" elapsed="0.000115"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.459878" elapsed="0.000233"/>
+</kw>
+<arg>11.5</arg>
+<arg>NORMAL</arg>
+<status status="PASS" start="2026-10-07T16:59:41.459402" elapsed="0.000753"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.459187" elapsed="0.001057"/>
+</test>
+<test id="s1-s3-t8" name="TC08 Just below 14 V" line="23">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.460852" level="INFO">${actual} = NORMAL</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.460755" elapsed="0.000117"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.460968" elapsed="0.000230"/>
+</kw>
+<arg>13.9</arg>
+<arg>NORMAL</arg>
+<status status="PASS" start="2026-10-07T16:59:41.460574" elapsed="0.000674"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.460364" elapsed="0.001017"/>
+</test>
+<test id="s1-s3-t9" name="TC09 Boundary 14 V (assumed normal)" line="25">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.462027" level="INFO">${actual} = NORMAL</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.461924" elapsed="0.000123"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.462141" elapsed="0.000252"/>
+</kw>
+<arg>14.0</arg>
+<arg>NORMAL</arg>
+<status status="PASS" start="2026-10-07T16:59:41.461735" elapsed="0.000705"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.461507" elapsed="0.001018"/>
+</test>
+<test id="s1-s3-t10" name="TC10 Just above 14 V" line="27">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.463164" level="INFO">${actual} = OVERVOLTAGE</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.463057" elapsed="0.000128"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.463286" elapsed="0.000261"/>
+</kw>
+<arg>14.1</arg>
+<arg>OVERVOLTAGE</arg>
+<status status="PASS" start="2026-10-07T16:59:41.462870" elapsed="0.000725"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.462646" elapsed="0.001041"/>
+</test>
+<test id="s1-s3-t11" name="TC11 Mid overvoltage" line="29">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.464372" level="INFO">${actual} = OVERVOLTAGE</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.464267" elapsed="0.000126"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.464492" elapsed="0.000377"/>
+</kw>
+<arg>16.0</arg>
+<arg>OVERVOLTAGE</arg>
+<status status="PASS" start="2026-10-07T16:59:41.464065" elapsed="0.000851"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.463819" elapsed="0.001187"/>
+</test>
+<test id="s1-s3-t12" name="TC12 Just below 18 V" line="31">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.465686" level="INFO">${actual} = OVERVOLTAGE</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.465531" elapsed="0.000175"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.465798" elapsed="0.000231"/>
+</kw>
+<arg>17.9</arg>
+<arg>OVERVOLTAGE</arg>
+<status status="PASS" start="2026-10-07T16:59:41.465352" elapsed="0.000721"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.465129" elapsed="0.001027"/>
+</test>
+<test id="s1-s3-t13" name="TC13 Upper valid limit" line="33">
+<kw name="Check ECU Behaviour">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.466838" level="INFO">${actual} = OVERVOLTAGE</msg>
+<var>${actual}</var>
+<arg>${volts}</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.466664" elapsed="0.000193"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<arg>Wrong behaviour at ${volts} V</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.466951" elapsed="0.000227"/>
+</kw>
+<arg>18.0</arg>
+<arg>OVERVOLTAGE</arg>
+<status status="PASS" start="2026-10-07T16:59:41.466486" elapsed="0.000741"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.466279" elapsed="0.001034"/>
+</test>
+<test id="s1-s3-t14" name="TC14 Bench refuses unsafe voltages" line="36">
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.467978" level="FAIL">ValueError: UNSAFE: 4.9 V is outside the 5-18 V safe range. Not applied.</msg>
+<arg>4.9</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="FAIL" start="2026-10-07T16:59:41.467873" elapsed="0.000190">ValueError: UNSAFE: 4.9 V is outside the 5-18 V safe range. Not applied.</status>
+</kw>
+<arg>*UNSAFE*</arg>
+<arg>ECU Model Reacts To</arg>
+<arg>4.9</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.467655" elapsed="0.000601"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<kw name="Ecu Model Reacts To" owner="AutomotiveLibrary">
+<msg time="2026-10-07T16:59:41.468673" level="FAIL">ValueError: UNSAFE: 18.1 V is outside the 5-18 V safe range. Not applied.</msg>
+<arg>18.1</arg>
+<doc>Stand-in for the real ECU voltage behaviour on a test bench.</doc>
+<status status="FAIL" start="2026-10-07T16:59:41.468588" elapsed="0.000146">ValueError: UNSAFE: 18.1 V is outside the 5-18 V safe range. Not applied.</status>
+</kw>
+<arg>*UNSAFE*</arg>
+<arg>ECU Model Reacts To</arg>
+<arg>18.1</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.468377" elapsed="0.000501"/>
+</kw>
+<status status="PASS" start="2026-10-07T16:59:41.467431" elapsed="0.001550"/>
+</test>
+<doc>ECU voltage behaviour, BVA test cases TC01-TC14.
+Assumptions: resolution 0.1 V; 5.0 V = undervoltage; 9.0 V and 14.0 V = normal;
+18.0 V = overvoltage. Below 5 V and above 18 V are never applied.</doc>
+<status status="PASS" start="2026-10-07T16:59:41.449898" elapsed="0.019293"/>
+</suite>
+<status status="PASS" start="2026-10-07T16:59:41.008531" elapsed="0.461189"/>
+</suite>
+<statistics>
+<total>
+<stat pass="25" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="5" fail="0" skip="0">negative</stat>
+<stat pass="3" fail="0" skip="0">smoke</stat>
+</tag>
+<suite>
+<stat name="Tests" id="s1" pass="25" fail="0" skip="0">Tests</stat>
+<stat name="Can Tests" id="s1-s1" pass="6" fail="0" skip="0">Tests.Can Tests</stat>
+<stat name="Exception Retry Tests" id="s1-s2" pass="5" fail="0" skip="0">Tests.Exception Retry Tests</stat>
+<stat name="Voltage Tests" id="s1-s3" pass="14" fail="0" skip="0">Tests.Voltage Tests</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
