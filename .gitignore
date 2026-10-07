@@ -1,0 +1,10 @@
+.venv/
+venv/
+.idea/
+.pytest_cache/
+.robotcode_cache/
+__pycache__/
+results/
+output.xml
+log.html
+report.html
